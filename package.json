@@ -44,7 +44,7 @@
     "clean:build": "rm -rf lib index *.d.ts loader template* types utils",
     "format": "pretty-quick",
     "husky": "pretty-quick --staged && yarn test",
-    "prepare": "husky install",
+    "prepare": "husky install && yarn build",
     "prepublish": "yarn test && yarn build",
     "test": "cross-env NODE_ENV=test jest --env=jsdom",
     "test:coverage": "cross-env NODE_ENV=test jest --env=jsdom --coverage",
