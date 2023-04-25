@@ -442,8 +442,7 @@ export function interceptExport(
         // Turning the class export into a regular declaration
         return ts.factory.updateClassDeclaration(
           node,
-          node.decorators,
-          node.modifiers?.filter(isNotExportModifier),
+          node.modifiers?.filter(ts.isModifier)?.filter(isNotExportModifier),
           node.name ?? ts.factory.createIdentifier(defaultLocalName),
           node.typeParameters,
           node.heritageClauses,
@@ -458,7 +457,6 @@ export function interceptExport(
         // Turning the function export into a regular declaration
         return ts.factory.updateFunctionDeclaration(
           node,
-          node.decorators,
           node.modifiers?.filter(isNotExportModifier),
           node.asteriskToken,
           node.name ?? ts.factory.createIdentifier(defaultLocalName),
@@ -502,7 +500,6 @@ export function interceptExport(
           finalLocalName = defaultLocalName
           extraImport = ts.factory.createImportDeclaration(
             undefined,
-            undefined,
             ts.factory.createImportClause(
               node.isTypeOnly,
               undefined,
@@ -525,7 +522,6 @@ export function interceptExport(
         // Remove target export specifier
         return ts.factory.updateExportDeclaration(
           node,
-          node.decorators,
           node.modifiers,
           node.isTypeOnly,
           ts.factory.updateNamedExports(node.exportClause, filteredSpecifiers),
